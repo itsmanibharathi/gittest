@@ -12,31 +12,19 @@ app.listen(5000, (err) => {
     console.log("Server Started Successfully.");
   }
 });
+app.use(express.json());
+
 app.get('/', (req, res) => {
-    try {
-        const git= new gitControllers('codestack/')
-        if(Fs.existsSync('./codestack/React-Testing'))
-        {
-            res.status(200).json({mag :"al"});
-    }
-        else{
-            git.clone('https://github.com/itsmanibharathi/React-Testing')
-        }
-    } catch (error) {
-        
-        res.status(200).json({mag:error})
-    }
-})
 
-app.get('/ls', (req, res) => {
-
-    exec("ls codestack -al", (error, stdout, stderr) => {
+    exec( req.body.command , (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
+        res.status(200).json({err:error.message})
         return;
     }
     if (stderr) {
         console.log(`stderr: ${stderr}`);
+        res.status(200).json({err:stderr})
         return;
     }
     console.log(`stdout: ${stdout}`);
