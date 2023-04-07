@@ -43,7 +43,7 @@ app.get('/update', (req, res) => {
       stderr.pipe(process.stderr)
       stdout.on('data', (data) => {
         console.log(data.toString('utf8'));
-        res.json({"status":true,msgg:data.toString('utf8')})
+        // res.json({"status":true,msgg:data.toString('utf8')})
 
       })
       })
@@ -53,7 +53,7 @@ app.get('/update', (req, res) => {
       .add('.')
       .commit(val, '.')
       .push()
-      res.status(200).json({"status":true})
+      res.json({"status":true})
 });
 
 // git.push();
