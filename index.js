@@ -1,9 +1,11 @@
+const { exec } = require("child_process");
 const express = require("express");
 const gitControllers = require('./gitControllers')
-const Fs = require('fs')  
+const Fs = require('fs');
+
 
 const app = express();
-app.listen(80, (err) => {
+app.listen(5000, (err) => {
   if (err) {
     console.log(err);
   } else {
@@ -12,12 +14,13 @@ app.listen(80, (err) => {
 });
 app.get('/', (req, res) => {
     try {
-        const git=new gitControllers('codestack/')
+        const git= new gitControllers('codestack/')
         if(Fs.existsSync('./codestack/React-Testing'))
-        res.status(200).json({mag :"al"})
+        {
+            res.status(200).json({mag :"al"});
+    }
         else{
             git.clone('https://github.com/itsmanibharathi/React-Testing')
-            res.status(200).json({mag :"ok"})
         }
     } catch (error) {
         
@@ -26,9 +29,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/ls', (req, res) => {
-const { exec } = require("child_process");
 
-exec("ls codestack -la", (error, stdout, stderr) => {
+    exec("ls codestack -al", (error, stdout, stderr) => {
     if (error) {
         console.log(`error: ${error.message}`);
         return;
@@ -38,6 +40,7 @@ exec("ls codestack -la", (error, stdout, stderr) => {
         return;
     }
     console.log(`stdout: ${stdout}`);
+    res.status(200).json({mag:stdout})
 });
 });
 // git.push();
